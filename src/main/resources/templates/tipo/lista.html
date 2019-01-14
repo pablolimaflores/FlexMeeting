@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head><meta charset="UTF-8"/></head>
+<body>
+
+	    <section class="layout-content" layout:fragment="corpo">
+	
+	        <nav class="navbar navbar-expand-md bg-light">
+	            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+	                <ul class="navbar-nav mr-auto">
+	                    <li class="nav-item active">
+	                        <i class="oi oi-caret-right"></i>
+	                        <span>Lista de Tipos</span>
+	                    </li>
+	                </ul>
+	                <a class="btn btn-dark btn-md" th:href="@{/tipos/cadastrar}" role="button">
+	                    <span class="oi oi-plus" title="Cadastro" aria-hidden="true"></span>
+	                    <span>Novo Tipo</span>
+	                </a>
+	            </div>
+	        </nav>
+	
+	        <div class="container" id="listagem">
+	
+				<div th:replace="fragments/alert"></div>
+	
+	            <div class="table-responsive">
+					<table class="table table-striped table-hover table-sm">
+					    <thead>
+					    <tr>
+					        <th>#</th>
+					        <th>Nome</th>
+					        <th>Descrição</th>
+					        <th>Debate?</th>
+					        <th align="center">Ações</th>
+					    </tr>
+					    </thead>
+					    <tbody>
+						    <div class="alert" th:if="${page != null and #lists.isEmpty(page.content)}">
+							    <tr>
+								    <td colspan=5 align="center">
+								        <strong>Nenhum item encontrado!</strong>
+								    </td>
+							    </tr>
+							</div>
+					     <tr th:each="t : ${tipos}">
+					         <td th:text="${t.id}">99</td>
+					         <td th:text="${t.nome}">Trabalho</td>
+					         <td th:text="${t.descricao}">...</td>
+					         <div th:if="${t.debate == true}">
+		                     	<td align="center" th:text="Sim">Sim</td>
+		                     </div>
+		                     <div th:unless="${t.debate == true}">
+							 	<td align="center" th:text="Não">Não</td>
+							 </div>
+					         <td width="120">
+					             <a class="btn btn-info btn-sm" th:href="@{/tipos/editar/{id} (id=${t.id}) }" role="button">
+					                 <span class="oi oi-pencil" title="Editar" aria-hidden="true"></span>
+					             </a>
+					             <button th:id="${ 'btn_tipos/excluir/' + t.id}" type="button" class="btn btn-danger btn-sm"
+					             		data-toggle="modal" data-target="#myModal">
+					                 <span class="oi oi-circle-x" title="Excluir" aria-hidden="true"></span>
+					             </button>
+					         </td>
+					     </tr>
+					    </tbody>
+					</table>
+	            </div>
+	            
+	            <div class="d-flex flex-row justify-content-center">
+		        	<ul class="pagination">
+		        		<li>
+						    <span th:if="${page.hasPrevious()}">
+						    	<a th:href="@{/tipos/listar(page=${page.number-1},size=${page.size})}">Anterior</a>
+						    </span>
+						    <th:block th:each="i: ${#numbers.sequence(0, page.totalPages - 1)}">
+						        <span th:if="${page.number == i}" class="selected">[[${i}+1]]</span>
+						        <span th:unless="${page.number == i}">
+						          <a th:href="@{/tipos/listar(page=${i},size=${page.size})}">[[${i}+1]]</a>
+						        </span>						        
+						    </th:block>
+						    <span th:if="${page.hasNext()}">
+						        <a th:href="@{/tipos/listar(page=${page.number+1},size=${page.size})}">Proximo</a>
+						    </span>
+					    </li>
+					</ul>    
+				</div>
+	            
+	        </div>
+	        
+			<div th:replace="fragments/modal :: modal"></div>
+			
+	    </section>
+</body>
+</html>		

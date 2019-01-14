@@ -1,0 +1,127 @@
+package com.projeto.flexmeeting.domain.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.projeto.flexmeeting.domain.entity.TipoParticipante;
+import com.projeto.flexmeeting.domain.repository.ITipoParticipanteRepository;
+
+@Service
+public class TipoParticipanteService {
+	
+	@Autowired
+	private ITipoParticipanteRepository tipoParticipanteRepository;	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public List<TipoParticipante> findAllTiposParticipante() {
+        return this.tipoParticipanteRepository.findAll();
+    }
+	
+	/**
+	 * 
+	 * @param pageable
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public Page<TipoParticipante> findAllTiposParticipantePage(Pageable pageable) {
+        return this.tipoParticipanteRepository.findByFilter("", pageable);
+    }
+	
+	/**
+	 * Metodo para retornar as páginas
+	 * @param pageable
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public Page<TipoParticipante> findTiposParticipanteByFilter(String filter, Pageable pageable) {
+		return this.tipoParticipanteRepository.findByFilter(filter, pageable);
+    }	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public TipoParticipante findTipoParticipanteById( long id ) {
+		
+		final TipoParticipante tipoParticipanteSaved = this.tipoParticipanteRepository.findById( id )
+				.orElseThrow(() -> new IllegalArgumentException( "Registro de TipoParticipante com id "+ id + " não encontrado." ) );
+		return tipoParticipanteSaved;
+    }
+	
+	/**
+	 * 
+	 * @param tipoParticipante
+	 * @return
+	 */
+	public TipoParticipante insertTipoParticipante( TipoParticipante tipoParticipante ) {
+    	
+		tipoParticipante.setAtivo(true);
+		tipoParticipante.refreshCreatedAndUpdated();		
+		return this.tipoParticipanteRepository.save( tipoParticipante );		
+	}
+	
+	/**
+	 * 
+	 * @param tipoParticipante
+	 * @return
+	 */
+	public TipoParticipante updateTipoParticipante( TipoParticipante tipoParticipante ) {
+		
+		this.tipoParticipanteRepository.findById(tipoParticipante.getId())
+				.orElseThrow(() -> new IllegalArgumentException( "Não foi possível atualizar o registro. "
+							+"Registro de TipoParticipante com id "+tipoParticipante.getId() + " não encontrado." ) );
+		
+		tipoParticipante.refreshUpdated();
+		return this.tipoParticipanteRepository.saveAndFlush( tipoParticipante );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public void deleteTipoParticipante( long id ) {
+		
+		final TipoParticipante tipoParticipanteSaved = this.tipoParticipanteRepository.findById( id )
+				.orElseThrow(() -> new IllegalArgumentException( "Registro de TipoParticipante com id "+ id + " não encontrado." ) );
+		
+		this.tipoParticipanteRepository.deleteById( tipoParticipanteSaved.getId() );
+    }
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public TipoParticipante updateStatusTipoParticipante( long id ) {
+		
+		TipoParticipante tipoParticipanteSaved = this.tipoParticipanteRepository.findById( id )
+				.orElseThrow(() -> new IllegalArgumentException( "TipoParticipante não encontrado." ));		 
+		
+		tipoParticipanteSaved.setAtivo( !tipoParticipanteSaved.getAtivo() );
+		
+		return this.tipoParticipanteRepository.saveAndFlush( tipoParticipanteSaved );
+	}
+	
+	/**
+	 * Médodo utilizado apenas para verificação de existência de registros.
+	 * @return
+	 */
+	public long countTiposParticipante() {
+		return this.tipoParticipanteRepository.count();
+	}
+	
+	public boolean tipoTemParticipantesAssociados(Long id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+}
