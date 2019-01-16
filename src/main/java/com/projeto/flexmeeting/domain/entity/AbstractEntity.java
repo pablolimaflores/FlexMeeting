@@ -18,8 +18,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Classe utilizada como entidade 'pai' sendo herdada por todas as outras classes.
- *  
+ * Classe utilizada como entidade 'pai' sendo herdada por todas as outras
+ * classes.
+ * 
  *
  */
 @Data
@@ -32,44 +33,43 @@ public abstract class AbstractEntity implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 2227201546998331220L;
-	
-	
+
 	/**
 	 * 
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)		
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false)
 	protected Long id;
-	
+
 	/**
 	 * 
-	 */	
+	 */
 	@Column(nullable = false, updatable = false)
 	protected LocalDateTime created;
-	
+
 	/**
 	 * 
-	 */	
+	 */
 	@Column(nullable = false)
 	protected LocalDateTime updated;
-	
+
 	@Column()
 	private Boolean ativo;
-	
+
 	/**
 	 * 
 	 * @param id
 	 */
-	public AbstractEntity( Long id ) {
+	public AbstractEntity(Long id) {
 		this.id = id;
 	}
-	
+
 	/**
 	 * 
 	 * @param id
 	 */
-	public AbstractEntity( Long id, Boolean ativo ) {
+	public AbstractEntity(Long id, Boolean ativo) {
 		this.id = id;
 		this.ativo = ativo;
 	}
@@ -83,13 +83,13 @@ public abstract class AbstractEntity implements Serializable {
 		this.created = now;
 		this.updated = now;
 	}
-	
+
 	/**
 	 * 
 	 */
 	@PreUpdate
 	public void refreshUpdated() {
 		this.updated = LocalDateTime.now();
-	}		
+	}
 
 }
