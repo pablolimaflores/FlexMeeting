@@ -119,6 +119,16 @@
             <version>1.0</version>
         </dependency>
         
+        <!-- Security -->
+        <!-- <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+        </dependency> -->
+        
     	<!-- JSR310 -->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
