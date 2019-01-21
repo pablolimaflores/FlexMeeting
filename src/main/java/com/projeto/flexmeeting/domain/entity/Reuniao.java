@@ -2,11 +2,14 @@ package com.projeto.flexmeeting.domain.entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true/*, exclude = "participantes"*/)
+@EqualsAndHashCode(callSuper = true, exclude = "participantes")
 public class Reuniao extends AbstractEntity {
 
 	/**
@@ -82,17 +85,17 @@ public class Reuniao extends AbstractEntity {
 	@ManyToOne(fetch = FetchType.LAZY/* , optional = false */)
 	private Tipo tipo;
 
-//	/**
-//	 * 
-//	 */
-//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "reuniao")
-//	private List<Participante> participantes;
-//
-//	/**
-//	 * 
-//	 */
-//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "reuniao")
-//	private List<PontoPauta> pontosPauta;
+	/**
+	 * 
+	 */
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "reuniao")
+	private List<Participante> participantes;
+
+	/**
+	 * 
+	 */
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "reuniao")
+	private List<PontoPauta> pontosPauta;
 
 	/**
 	 * 
