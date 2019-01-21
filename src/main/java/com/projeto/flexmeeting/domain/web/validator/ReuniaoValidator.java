@@ -1,5 +1,7 @@
 package com.projeto.flexmeeting.domain.web.validator;
 
+import java.time.LocalTime;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -16,15 +18,15 @@ public class ReuniaoValidator implements Validator {
 	@Override
 	public void validate(Object object, Errors errors) {
 		
-//		Reuniao f = (Reuniao) object;
-//		
-//		LocalDate entrada = f.getDataEntrada();
-//		
-//		if (f.getDataSaida() != null) {
-//			if (f.getDataSaida().isBefore(entrada)) {
-//				errors.rejectValue("dataSaida", "PosteriorDataEntrada.reuniao.dataSaida");
-//			}
-//		}
+		Reuniao r = (Reuniao) object;
+		
+		LocalTime inicio = r.getHoraInicio();
+		
+		if (r.getHoraFim() != null) {
+			if (r.getHoraFim().isBefore(inicio)) {
+				errors.rejectValue("horaFim", "PosteriorHoraInicio.reuniao.horaFim");
+			}
+		}
 	}
 
 }
