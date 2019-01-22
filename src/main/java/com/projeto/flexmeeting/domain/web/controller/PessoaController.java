@@ -16,29 +16,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.projeto.flexmeeting.FlexMeetingApplication;
-import com.projeto.flexmeeting.domain.entity.TipoParticipante;
-import com.projeto.flexmeeting.domain.service.TipoParticipanteService;
+import com.projeto.flexmeeting.domain.entity.Pessoa;
+import com.projeto.flexmeeting.domain.service.PessoaService;
 
 @Controller
-@RequestMapping("/tiposParticipante")
-public class TipoParticipanteController {
+@RequestMapping("/pessoas")
+public class PessoaController {
 
 	
 	@Autowired
-	private TipoParticipanteService service;
+	private PessoaService service;
 
 	/**
 	 * Direciona para a página de cadastro passando o objeto da entidade por parâmetro
-	 * @param tipoParticipante
+	 * @param pessoa
 	 * @return
 	 */
 	@GetMapping("/cadastrar")
-	public String cadastrar(TipoParticipante tipoParticipante) {
-		return "tipoParticipante/cadastro";
+	public String cadastrar(Pessoa pessoa) {
+		return "pessoa/cadastro";
 	}
 	
     /**
-	 * Método para listagem de todas os tipos de participante cadastrados no sistema, em formato de paginação
+	 * Método para listagem de todas as pessoas cadastrados no sistema, em formato de paginação
      * 
 	 * @param pageable argumento para possibilitar paginar as informações vindas das consultas.
 	 * @param model utilizado para inserir um objeto ou uma informação que será renderizada na página.
@@ -46,29 +46,29 @@ public class TipoParticipanteController {
 	 */
 	@GetMapping("/listar")
 	public String listar(ModelMap model, @PageableDefault(FlexMeetingApplication.TABLE_MAX_ROWS) Pageable pageable ) {
-		Page<TipoParticipante> page = service.findAllTiposParticipante(pageable);		
+		Page<Pessoa> page = service.findAllPessoas(pageable);		
 		model.addAttribute("page", page);
-		model.addAttribute("tiposParticipante", page.getContent());
-		return "tipoParticipante/lista"; 
+		model.addAttribute("pessoas", page.getContent());
+		return "pessoa/lista"; 
 	}
 	
 	/**
-	 * Método que persiste o registro de tipoParticipante na base de dados
-	 * @param tipoParticipante
+	 * Método que persiste o registro de pessoa na base de dados
+	 * @param pessoa
 	 * @param result
 	 * @param attr
 	 * @return
 	 */
 	@PostMapping("/salvar")
-	public String salvar(@Valid TipoParticipante tipoParticipante, BindingResult result, RedirectAttributes attr) {
+	public String salvar(@Valid Pessoa pessoa, BindingResult result, RedirectAttributes attr) {
 		
 		if (result.hasErrors()) {
-			return "tipoParticipante/cadastro";
+			return "pessoa/cadastro";
 		}
 		
-		service.insertTipoParticipante(tipoParticipante);
-		attr.addFlashAttribute("success", "Tipo de participante inserido com sucesso.");
-		return "redirect:/tiposParticipante/listar";
+		service.insertPessoa(pessoa);
+		attr.addFlashAttribute("success", "Pessoa cadastrada com sucesso.");
+		return "redirect:/pessoas/listar";
 	}
 	
 	/**
@@ -79,38 +79,38 @@ public class TipoParticipanteController {
 	 */
 	@GetMapping("/editar/{id}")
 	public String preEditar(@PathVariable("id") Long id, ModelMap model) {
-		model.addAttribute("tipoParticipante", service.findTipoParticipanteById(id));
-		return "tipoParticipante/cadastro";
+		model.addAttribute("pessoa", service.findPessoaById(id));
+		return "pessoa/cadastro";
 	}
 	
 	/**
 	 * Método que atualiza o registro no banco de dados
-	 * @param tipoParticipante
+	 * @param pessoa
 	 * @param result
 	 * @param attr
 	 * @return
 	 */
 	@PostMapping("/editar")
-	public String editar(@Valid TipoParticipante tipoParticipante, BindingResult result, RedirectAttributes attr) {
+	public String editar(@Valid Pessoa pessoa, BindingResult result, RedirectAttributes attr) {
 		
 		if (result.hasErrors()) {
-			return "tipoParticipante/cadastro";
+			return "pessoa/cadastro";
 		}
 		
-		service.updateTipoParticipante(tipoParticipante);
-		attr.addFlashAttribute("success", "Tipo de Participante editado com sucesso.");
-		return "redirect:/tiposParticipante/listar";
+		service.updatePessoa(pessoa);
+		attr.addFlashAttribute("success", "Pessoa editada com sucesso.");
+		return "redirect:/pessoas/listar";
 	}
 	
 	@GetMapping("/excluir/{id}")
 	public String excluir(@PathVariable("id") Long id, ModelMap model, 
 			@PageableDefault(FlexMeetingApplication.TABLE_MAX_ROWS) Pageable pageable ) {
 		
-		if (service.tipoTemParticipantesAssociados(id)) {
-			model.addAttribute("fail", "Tipo de Participante não removido. Possui participantes(s) vinculado(s).");
+		if (service.pessoaTemParticipantesAssociados(id) || service.pessoaTemReunioesAssociadas(id)) {
+			model.addAttribute("fail", "Pessoa não removida. Possui outros registros vinculado(s).");
 		} else {
-			service.deleteTipoParticipante(id);
-			model.addAttribute("success", "Tipo de Participante excluído com sucesso.");
+			service.deletePessoa(id);
+			model.addAttribute("success", "Pessoa excluída com sucesso.");
 		}
 		
 		return listar(model, pageable);

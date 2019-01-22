@@ -32,7 +32,7 @@ public class TipoParticipanteService {
 	 * @return
 	 */
 	@Transactional(readOnly = true)
-	public Page<TipoParticipante> findAllTiposParticipantePage(Pageable pageable) {
+	public Page<TipoParticipante> findAllTiposParticipante(Pageable pageable) {
         return this.tipoParticipanteRepository.findByFilter("", pageable);
     }
 	

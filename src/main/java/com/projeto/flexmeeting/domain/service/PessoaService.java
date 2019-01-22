@@ -154,4 +154,14 @@ public class PessoaService /*implements UserDetailsService*/ {
 	public long countPessoas() {
 		return this.pessoaRepository.count();
 	}
+	
+	public boolean pessoaTemParticipantesAssociados(Long id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public boolean pessoaTemReunioesAssociadas(Long id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
