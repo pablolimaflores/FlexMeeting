@@ -10,12 +10,12 @@
 	                <ul class="navbar-nav mr-auto">
 	                    <li class="nav-item active">
 	                        <i class="oi oi-caret-right"></i>
-	                        <span>Cadastrar Tipos</span>
+	                        <span>Cadastrar Pessoas</span>
 	                    </li>
 	                </ul>
-	                <a class="btn btn-dark btn-md" th:href="@{/tipos/listar}" role="button">
+	                <a class="btn btn-dark btn-md" th:href="@{/pessoas/listar}" role="button">
 	                    <span class="oi oi-spreadsheet" title="Listar" aria-hidden="true"></span>
-	                    <span>Listar Tipos</span>
+	                    <span>Listar Pessoas</span>
 	                </a>
 	            </div>
 	        </nav>
@@ -24,41 +24,78 @@
 	        
 	        	<div th:replace="fragments/alert"></div>
 	        	
-				<form th:action="${tipo.id == null} ? @{/tipos/salvar} : @{/tipos/editar}" 
-				      th:object="${tipo}" method="POST">
+				<form th:action="${pessoa.id == null} ? @{/pessoas/salvar} : @{/pessoas/editar}" 
+				      th:object="${pessoa}" method="POST">
 	        		
 	        		<div th:replace="fragments/validacao :: validacao"></div>
 				    
 				    <div class="form-row">
 				        <div class="form-group col-md-6 offset-md-3">
-				            <label for="nome">Tipo</label>
+				            <label for="nome">Nome</label>
 				            <input type="text" class="form-control" id="nome"
-				                   placeholder="Nome Tipo" autofocus="autofocus" th:field="*{nome}"/>
+				                   placeholder="Nome Pessoa" autofocus="autofocus" th:field="*{nome}"/>
 				        </div>
 				    </div>
 				    
 				    <div class="form-row">
 				        <div class="form-group col-md-6 offset-md-3">
-				            <label for="descricao">Descrição</label>
+				            <label for="descricao">e-mail</label>
 				            <input type="text" class="form-control" id="descricao"
-				                   placeholder="Descrição do tipo" autofocus="autofocus" th:field="*{descricao}"/>
+				                   placeholder="e-mail" autofocus="autofocus" th:field="*{email}"/>
+				        </div>
+				    </div>
+				    				   
+				    <div class="form-row">
+				        <div class="form-group col-md-6 offset-md-3">
+				            <label for="nome">Telefone</label>
+				            <input type="text" class="form-control" id="telefone"
+				                   placeholder="Telefone" autofocus="autofocus" th:field="*{telefone}"/>
 				        </div>
 				    </div>
 				    
 				    <div class="form-row">
 				        <div class="form-group col-md-6 offset-md-3">
-				            <label for="debate">Debate?</label>
-	            			<input type="checkbox" name="debate" id="debate" th:field="${tipo.debate}" />  
+				            <label for="nome">Celular</label>
+				            <input type="text" class="form-control" id="nome"
+				                   placeholder="Celular" autofocus="autofocus" th:field="*{celular}"/>
 				        </div>
 				    </div>
+				    
+					<div class="form-group">
+				        <div class="col-md-3 offset-md-3 vertical-space">
+				            <label for="title">Criar usuario?</label>
+				            <input type="checkbox" name="usuario" id="usuario" th:field="${pessoa.usuarioAtivo}" onclick="(document.getElementById('senha').disabled = !this.checked) || (document.getElementById('adm').disabled = !this.checked)" />  
+				        </div>
+				        <div class="col-md-3 vertical-space">
+			            	<input type="password" class="form-control" id="senha" th:field="${pessoa.senha}" placeholder="Digite a senha" disabled="disabled"/>
+			            	<div class="col-md-6" th:classappend="${#fields.hasErrors('pessoa.senha')} ? 'has-error'">
+			            		<span th:if="${#fields.hasErrors('pessoa.senha')}" th:errors="*{pessoa.senha}" id="errorSenha" class="help-block"></span>
+				    		</div>
+			        	</div>              
+			        </div>   
+			        
+			        <!-- <div class="col-md-6 offset-md-3 vertical-space">
+			            <label for="title">Será administrador?</label><br>
+			            <input type="radio" name="adm" value="ROLE_ADMIN" th:field="${pessoa.role}"> Sim    
+					    <input type="radio" name="adm" value="ROLE_USER" th:field="${pessoa.role}"> Não 
+			            <br><br>
+			           	<div align="center">
+			        		<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>Cadastrar</button>
+			        		<a href="#" th:href="@{/pessoas}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span> Cancelar</a> 
+			       		</div>
+			        </div> 	 -->			    
 
 				    <input type="hidden" id="id" th:field="*{id}"/>
 				    	
 				    <div class="form-group">
-			        	<div class="col-md-6 offset-md-3 vertical-space">        	
+			        	<div class="col-md-6 offset-md-3 vertical-space"> 
+				        	<!-- <label for="title">Será administrador?</label><br>
+				            <input type="radio" name="adm" value="ROLE_ADMIN" th:field="${pessoa.role}"> Sim    
+						    <input type="radio" name="adm" value="ROLE_USER" th:field="${pessoa.role}"> Não --> 
+				            <br><br>       	
 			        		<div align="center"> 
 			        			<button type="submit" class="btn btn-primary btn-sm"><span class="oi oi-circle-check"> Salvar</button>
-			        			<a href="#" th:href="@{/tipos/listar}" class="btn btn-link btn-sm" role="button"><span class="oi oi-circle-x"> Cancelar</a>
+			        			<a href="#" th:href="@{/pessoas/listar}" class="btn btn-link btn-sm" role="button"><span class="oi oi-circle-x"> Cancelar</a>
 			    			</div>
 			    		</div>
 			    	</div>				    				   
