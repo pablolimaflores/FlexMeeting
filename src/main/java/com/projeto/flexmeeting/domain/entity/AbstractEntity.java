@@ -90,6 +90,6 @@ public abstract class AbstractEntity implements Serializable {
 	@PreUpdate
 	public void refreshUpdated() {
 		this.updated = LocalDateTime.now();
-	}
+	}	
 
 }

@@ -5,7 +5,7 @@ import javax.validation.constraints.*;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "ENDERECOS")
+@Table(name = "enderecos")
 public class Endereco extends AbstractEntity {
 
 	@NotBlank
